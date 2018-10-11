@@ -15,8 +15,13 @@ Meteor.methods({
     if (data.message=="") {
       throw new Meteor.Error("message-empty", "Your message is empty");
     }
+
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('error-invalid-user', 'Invalid user', {method: 'sendMessage'});
+    }
     
-    let userName = (data.name && data.name!="") ? data.name : "Anonymous";
+    const user = Meteor.user();
+    let userName = user.name || user.username || (user.emails[0] && user.emails[0].address);
     
     const matchName = data.message.match(/^My name is (.*)/i);
     
@@ -24,6 +29,7 @@ Meteor.methods({
       userName = matchName[1];
       Messages.insert({
         name: "Chat Bot",
+        uid: Meteor.userId(),
         message: "Hey everyone, " + userName + " is here!",
         createdAt: new Date(),
         announcement: true
@@ -31,6 +37,7 @@ Meteor.methods({
     } else {
       Messages.insert({
         name: userName,
+        uid: Meteor.userId(),
         message: data.message,
         createdAt: new Date()
       });

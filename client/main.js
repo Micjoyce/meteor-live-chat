@@ -7,8 +7,8 @@ import './loader.html';
 
 Template.body.onCreated(function bodyOnCreated() {
   
+  this.userSub = this.subscribe("userData"); // get userData
   this.messagesSub = this.subscribe("messages"); //get messages
-  
 });
 
 Template.body.onRendered(function bodyOnRendered() {
@@ -68,7 +68,7 @@ Template.body.events({
     
     Meteor.call("sendMessage", data, (error, response) => {
       if (error) {
-        alert(error.reason);
+        console(error.reason);
       } else {
         Cookie.set("name", response.name);
         $input.val("");

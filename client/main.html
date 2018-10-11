@@ -4,7 +4,10 @@
   <title>Welcome to Live Chat with Meteor!</title>
 </head>
 <body>
-  
+  <div class="stickly-header">
+    <h2>XXX聊天系统</h2>
+    <div class="login-panel">{{> loginButtons align='right'}}</div>
+  </div>
   <div class="hint-box-container {{#if hideHint}}hidden{{/if}}">
     <div class="hide-hint-button"></div>
     <div class="hint-box">
@@ -12,7 +15,6 @@
       <div>You can send messages anonymously or tell us your name. To set your name, just send a message saying "My name is _____" and we'll introduce you!</div>
     </div>
   </div>
-  
   <div class="messages-box">
     <div class="messages-scroll">
       <div class="header">
@@ -35,7 +37,11 @@
   
   <div class="new-message-container">
     <form>
+      {{#if currentUser}}
       <input type="text" class="message-input" placeholder="Type your message here..."><button type="submit">Send</button>
+      {{else}}
+        <div class="login-btn">Please login ↑↑↑</div>
+      {{/if}}
     </form>
   </div>
 
